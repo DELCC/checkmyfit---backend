@@ -22,7 +22,7 @@ router.post('/aianalysis',(req,res) => {
        prompts: req.body.prompts,
      })
   }).then(response => response.json())
-  .then(data => res.json({result : true, analysis : data}));
+  .then(data => res.json({result : true, data}));
    });
 
 
