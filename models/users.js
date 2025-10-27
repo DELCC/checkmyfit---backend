@@ -1,8 +1,19 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-  // TO DO: remplir users selon la modelisation de la DB : Miro (récupérer l'email si on veut faire la feature mdp oublié ?)
-});
+  username: { type: String, required: true }, 
+  email: { type: String, required: true, unique: true, lowercase: true },
+  password: { type: String, required: true }, 
+  token: String,
+  assistant: { type: mongoose.Schema.Types.ObjectId, ref: 'asisstant' } ,
+  profilepic: String, 
+  bio: { type: String, default: null },
+  taille: { type: Number, default: null },
+  poids:{ type: Number, default: null }, 
+  skintone: { type: String, default: null },
+  bodytype:{ type: String, default: null },
+  stylepreferences: { type: [String], default: [] }, 
+}, { timestamps: true });
 
 const User = mongoose.model("users", userSchema);
 
