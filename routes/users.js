@@ -28,10 +28,11 @@ router.post("/signup", (req, res) => {
         username: req.body.username, 
         email: req.body.email,
         password: hash,
+        token: token,
       });
 
-      newUser.save().then((data) => {
-        res.json({ result: true, token: data.token });
+      newUser.save().then(() => {
+        res.json({ result: true, token});
       });
     } else {
       // User already exists in database
