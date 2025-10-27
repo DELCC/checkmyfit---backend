@@ -8,7 +8,6 @@ const { checkBody } = require("../modules/checkBody");
 const uid2 = require("uid2");
 const bcrypt = require("bcrypt");
 
-
 // POST ----- SIGN UP
 
 router.post("/signup", (req, res) => {
@@ -25,13 +24,14 @@ router.post("/signup", (req, res) => {
       const token = uid2(32);
 
       const newUser = new User({
-        username: req.body.username, 
+        username: req.body.username,
         email: req.body.email,
         password: hash,
+        token: token,
       });
 
       newUser.save().then((data) => {
-        res.json({ result: true, token: data.token });
+        res.json({ result: true, token });
       });
     } else {
       // User already exists in database
@@ -59,13 +59,11 @@ router.post("/signin", (req, res) => {
   });
 });
 
+// PUT ----- Edit profile
 
-// PUT ----- Edit profile 
-
-
-router.put('/:token', (req, res) => {
+router.put("/:token", (req, res) => {
   User.findOne({ token: req.params.token })
-    .then(user => {
+    .then((user) => {
       if (!user) {
         res.status(403).json({ message: "User not found" });
         return;
@@ -79,11 +77,11 @@ router.put('/:token', (req, res) => {
         "poids",
         "skintone",
         "bodytype",
-        "stylepreferences"
+        "stylepreferences",
       ];
 
       const updateData = {};
-      updatableFields.forEach(field => {
+      updatableFields.forEach((field) => {
         if (req.body[field] !== undefined && req.body[field] !== null) {
           updateData[field] = req.body[field];
         }
@@ -95,17 +93,17 @@ router.put('/:token', (req, res) => {
         { new: true }
       );
     })
-    .then(updatedUser => {
+    .then((updatedUser) => {
       if (!updatedUser) {
         res.status(404).json({ message: "User not found by ID" });
         return;
       }
       res.status(200).json({
         message: "User updated successfully",
-        user: updatedUser
+        user: updatedUser,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("PUT /:id/:token error:", err);
       res.status(500).json({
         message: "Server error",
@@ -113,27 +111,22 @@ router.put('/:token', (req, res) => {
     });
 });
 
-
 //GET ----- profile infos
-router.get('/:token', (req, res) => {
+router.get("/:token", (req, res) => {
   User.findOne({ token: req.params.token })
-    //.populate('aiassistant') // to uncomment after AI Assistant DB filled 
-    .then(user => {
+    //.populate('aiassistant') // to uncomment after AI Assistant DB filled
+    .then((user) => {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       } else {
         return res.status(200).json({ user });
       }
     })
-    .catch(err => {
-      res.status(500).json({ message: "Not able to GET profile info", error: err });
+    .catch((err) => {
+      res
+        .status(500)
+        .json({ message: "Not able to GET profile info", error: err });
     });
 });
 
-
 module.exports = router;
-
-
-
-
-
