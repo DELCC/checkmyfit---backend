@@ -1,0 +1,13 @@
+const mongoose = require("mongoose");
+
+const outfitSchema = mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+  outfitpicture: String,
+  rating: Number,
+  comment: String,
+  suggestion: String, 
+}, { timestamps: true });
+
+const Outfit = mongoose.model("outfits", outfitSchema);
+
+module.exports = Outfit;
