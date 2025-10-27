@@ -5,7 +5,7 @@ const userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true }, 
   token: String,
-  assistant: { type: mongoose.Schema.Types.ObjectId, ref: 'asisstant' } ,
+  aiassistant: { type: mongoose.Schema.Types.ObjectId, ref: 'aiasisstants' } ,
   profilepic: String, 
   bio: { type: String, default: null },
   taille: { type: Number, default: null },
