@@ -6,18 +6,18 @@ const userSchema = mongoose.Schema(
     email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true },
     token: String,
-    aiassistant: {
+    aiAssistant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "aiassistants",
       default: null,
     },
-    profilepic: String,
+    profilePic: String,
     bio: { type: String, default: null },
-    taille: { type: Number, default: null },
-    poids: { type: Number, default: null },
-    skintone: { type: String, default: null },
-    bodytype: { type: String, default: null },
-    stylepreferences: { type: [String], default: [] },
+    height: { type: Number, default: null },
+    weight: { type: Number, default: null },
+    skinTone: { type: String, default: null },
+    bodyType: { type: String, default: null },
+    stylePreferences: { type: [String], default: [] },
   },
   { timestamps: true }
 );

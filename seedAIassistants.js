@@ -3,48 +3,58 @@ const mongoose = require("mongoose");
 const AiAssistant = require("./models/aiassistants");
 
 // Connect to MongoDB
-mongoose.connect(process.env.CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose
+  .connect(process.env.CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.error("MongoDB connection error:", err));
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Array of AI assistants
 const assistants = [
   {
-    "name": "Aurélien",
-    "style": ["neutral"],
-    "description": "Aurélien is your straightforward, neutral AI assistant who keeps things simple and efficient.",
-    "image": ""
+    aiassistantName: "Aurélien",
+    aiassistantStyle: ["neutral"],
+    aiassistantDescription:
+      "Aurélien est ton assistant IA neutre et direct, qui garde les choses simples et efficaces.",
+    aiassistantPic: "",
   },
   {
-    "name": "Paul",
-    "style": ["fun", "playful", "casual"],
-    "description": "Paul brings energy and humor to your interactions. He makes every session light and enjoyable.",
-    "image": ""
+    aiassistantName: "Paul",
+    aiassistantStyle: ["fun", "playful", "casual"],
+    aiassistantDescription:
+      "Paul apporte de l'énergie et de l'humour à tes interactions. Il rend chaque session légère et agréable.",
+    aiassistantPic: "",
   },
   {
-    "name": "Clément",
-    "style": ["serious", "professional"],
-    "description": "Clément is precise and focused, ideal for users who want structured advice and guidance.",
-    "image": ""
+    aiassistantName: "Clément",
+    aiassistantStyle: ["serious", "professional"],
+    aiassistantDescription:
+      "Clément est précis et concentré, idéal pour ceux qui veulent des conseils structurés et professionnels.",
+    aiassistantPic: "",
   },
   {
-    "name": "Yoann",
-    "style": ["creative", "friendly"],
-    "description": "Yoann loves exploring new ideas and inspiring creativity while staying approachable.",
-    "image": ""
+    aiassistantName: "Yoann",
+    aiassistantStyle: ["creative", "friendly"],
+    aiassistantDescription:
+      "Yoann adore explorer de nouvelles idées et inspirer la créativité tout en restant accessible.",
+    aiassistantPic: "",
   },
   {
-    "name": "Ruddy",
-    "style": ["encouraging", "motivational"],
-    "description": "Ruddy is all about uplifting and motivating users, giving positive reinforcement and practical tips.",
-    "image": ""
-  }
+    aiassistantName: "Ruddy",
+    aiassistantStyle: ["encouraging", "motivational"],
+    aiassistantDescription:
+      "Ruddy est là pour motiver et encourager, en donnant des conseils positifs et pratiques.",
+    aiassistantPic: "",
+  },
 ];
 
 // Insert assistants
-assistants.forEach(a => {
+assistants.forEach((a) => {
   const newAssistant = new AiAssistant(a);
-  newAssistant.save()
-    .then(doc => console.log("Saved:", doc.name))
-    .catch(err => console.error(err));
+  newAssistant
+    .save()
+    .then((doc) => console.log("Saved:", doc.name))
+    .catch((err) => console.error(err));
 });
