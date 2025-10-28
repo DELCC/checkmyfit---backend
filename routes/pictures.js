@@ -8,7 +8,7 @@ const uniqid = require("uniqid");
 const credentials = Buffer.from(
   `${process.env.KEY}:${process.env.SECRET}`
 ).toString("base64");
-// Hello
+// Hello qsd
 router.post("/aianalysis", (req, res) => {
   fetch(
     `https://api.cloudinary.com/v2/analysis/${process.env.CLOUDINARY_CLOUD_NAME}/analyze/ai_vision_general`,
