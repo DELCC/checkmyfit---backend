@@ -70,14 +70,14 @@ router.put("/:token", (req, res) => {
       }
 
       const updatableFields = [
-        "aiassistant",
+        "aiAssistant",
         "profilePic",
         "bio",
-        "taille",
-        "poids",
-        "skintone",
-        "bodytype",
-        "stylepreferences",
+        "height",
+        "weight",
+        "skinTone",
+        "bodyType",
+        "stylePreferences",
       ];
 
       const updateData = {};
