@@ -10,8 +10,9 @@ require("./models/connection");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var picturesRouter = require("./routes/pictures");
-var outfitsRouter = require('./routes/outfits');
-const fileUpload = require('express-fileupload');
+var outfitsRouter = require("./routes/outfits");
+var itemsRouter = require("./routes/items");
+const fileUpload = require("express-fileupload");
 
 var app = express();
 const cors = require("cors");
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/pictures", picturesRouter);
-app.use('/outfits', outfitsRouter);
+app.use("/outfits", outfitsRouter);
+app.use("/items", itemsRouter);
 
 module.exports = app;
