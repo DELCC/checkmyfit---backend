@@ -10,7 +10,7 @@ require("./models/connection");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var picturesRouter = require("./routes/pictures");
-
+var outfitsRouter = require('./routes/outfits');
 const fileUpload = require('express-fileupload');
 
 var app = express();
@@ -26,5 +26,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/pictures", picturesRouter);
+app.use('/outfits', outfitsRouter);
 
 module.exports = app;
