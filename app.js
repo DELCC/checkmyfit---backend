@@ -12,6 +12,8 @@ var usersRouter = require("./routes/users");
 var picturesRouter = require("./routes/pictures");
 var outfitsRouter = require("./routes/outfits");
 var itemsRouter = require("./routes/items");
+var aiassistantsRouter = require("./routes/aiassistants");
+
 const fileUpload = require("express-fileupload");
 
 var app = express();
@@ -29,5 +31,6 @@ app.use("/users", usersRouter);
 app.use("/pictures", picturesRouter);
 app.use("/outfits", outfitsRouter);
 app.use("/items", itemsRouter);
+app.use("/aiassistants", aiassistantsRouter);
 
 module.exports = app;
