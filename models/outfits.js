@@ -6,7 +6,7 @@ const outfitSchema = mongoose.Schema(
     outfitPic: String,
     rating: Number,
     comment: String,
-    suggestion: String,
+    suggestion: Array,
   },
   { timestamps: true }
 );
