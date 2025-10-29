@@ -8,6 +8,10 @@ const { checkBody } = require("../modules/checkBody");
 const uid2 = require("uid2");
 const bcrypt = require("bcrypt");
 
+const uniqid = require("uniqid");
+const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+
 // POST ----- SIGN UP
 
 router.post("/signup", (req, res) => {
@@ -127,6 +131,23 @@ router.get("/:token", (req, res) => {
         .status(500)
         .json({ message: "Not able to GET profile info", error: err });
     });
+});
+
+// POST CLOUDINARY UPLOAD
+router.post("/upload", async (req, res) => {
+  const photoPath = `./tmp/${uniqid()}.jpg`;
+
+  // Move the uploaded file temporarily
+  await req.files.photoFromFront.mv(photoPath);
+
+  // Upload to Cloudinary
+  const resultCloudinary = await cloudinary.uploader.upload(photoPath);
+
+  // Delete the local temp file
+  fs.unlinkSync(photoPath);
+
+  // Respond with Cloudinary URL
+  res.json({ result: true, url: resultCloudinary.secure_url });
 });
 
 module.exports = router;
