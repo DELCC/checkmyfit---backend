@@ -27,7 +27,8 @@ router.post("/aianalysis", (req, res) => {
     }
   )
     .then((response) => response.json())
-    .then((data) => res.json({ result: true, data }));
+    .then((data) => res.json({ result: true, data }))
+    .catch(error => res.json({result : false,error : error }));
 });
 
 router.post("/upload", async (req, res) => {
