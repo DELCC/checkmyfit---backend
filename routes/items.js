@@ -6,6 +6,7 @@ const fs = require("fs");
 const uniqid = require("uniqid");
 
 const Item = require("../models/items");
+const User = require("../models/users");
 
 router.post("/upload", async (req, res) => {
   try {
@@ -56,6 +57,89 @@ router.post("/removeBackground", async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ result: false, error });
+  }
+});
+
+router.post("/:token", async (req, res) => {
+  try {
+    const { itemPic, type, color, season, occasion, fabric } = req.body;
+
+    // Find user by token (from URL param)
+    const token = req.params.token;
+    if (!token) {
+      return res
+        .status(400)
+        .json({ result: false, error: "No token provided" });
+    }
+
+    const foundUser = await User.findOne({ token });
+    if (!foundUser) {
+      return res.status(404).json({ result: false, error: "User not found" });
+    }
+
+    // Basic validation
+    if (!type && !itemPic) {
+      return res.status(400).json({
+        result: false,
+        error: "Missing required field: type and itemPic",
+      });
+    }
+
+    const newItem = new Item({
+      user: foundUser._id,
+      itemPic,
+      type,
+      color,
+      season,
+      occasion,
+      fabric,
+    });
+
+    const savedItem = await newItem.save();
+
+    return res.status(201).json({ result: true, item: savedItem });
+  } catch (error) {
+    console.error("Error creating item:", error);
+    return res.status(500).json({ result: false, error: error.message });
+  }
+});
+
+// get all items for a user by their token
+router.get("/:token", async (req, res) => {
+  try {
+    const { token } = req.params;
+    if (!token) {
+      return res
+        .status(400)
+        .json({ result: false, error: "No token provided" });
+    }
+    const foundUser = await User.findOne({ token });
+    if (!foundUser) {
+      return res.status(404).json({ result: false, error: "User not found" });
+    }
+    const items = await Item.find({ user: foundUser._id });
+    return res.status(200).json({ result: true, items });
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    return res.status(500).json({ result: false, error: error.message });
+  }
+});
+
+// route to delete and item by its ID
+router.delete("/:itemId", async (req, res) => {
+  try {
+    const { itemId } = req.params;
+    const deletedItem = await Item.findByIdAndDelete(itemId);
+
+    if (!deletedItem) {
+      return res.status(404).json({ result: false, error: "Item not found" });
+    }
+    return res
+      .status(200)
+      .json({ result: true, message: "Item deleted", item: deletedItem });
+  } catch (error) {
+    console.error("Error deleting item:", error);
+    return res.status(500).json({ result: false, error: error.message });
   }
 });
 
