@@ -118,7 +118,7 @@ router.put("/:token", (req, res) => {
 //GET ----- profile infos
 router.get("/:token", (req, res) => {
   User.findOne({ token: req.params.token })
-    //.populate('aiassistant') // to uncomment after AI Assistant DB filled
+    .populate("aiAssistant")
     .then((user) => {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
