@@ -95,7 +95,7 @@ router.put("/:token", (req, res) => {
         user._id,
         { $set: updateData },
         { new: true }
-      );
+      ).populate("aiAssistant");
     })
     .then((updatedUser) => {
       if (!updatedUser) {
