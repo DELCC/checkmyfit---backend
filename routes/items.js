@@ -178,4 +178,48 @@ router.delete("/:itemId", async (req, res) => {
   }
 });
 
+// Edit an item
+router.put("/:itemId", async (req, res) => {
+  try {
+    const { itemId } = req.params;
+    const { token, itemPic, type, color, season, occasion, fabric } = req.body;
+    // token validation
+    if (!token) {
+      return res
+        .status(400)
+        .json({ result: false, error: "No token provided" });
+    }
+    // item validation
+    const item = await Item.findById(itemId);
+    if (!item) {
+      return res.status(404).json({ result: false, error: "Item not found" });
+    }
+    // user validation
+    const foundUser = await User.findOne({ token });
+    if (!foundUser) {
+      return res.status(404).json({ result: false, error: "User not found" });
+    }
+    // authorization check
+    if (item.user.toString() !== foundUser._id.toString()) {
+      return res.status(403).json({
+        result: false,
+        error: "Not authorized to edit this item",
+      });
+    }
+    // update item fields
+    if (itemPic !== undefined) item.itemPic = itemPic;
+    if (type !== undefined) item.type = type;
+    if (color !== undefined) item.color = color;
+    if (season !== undefined) item.season = season;
+    if (occasion !== undefined) item.occasion = occasion;
+    if (fabric !== undefined) item.fabric = fabric;
+    // save updated item
+    const updatedItem = await item.save();
+    return res.status(200).json({ result: true, item: updatedItem });
+  } catch (error) {
+    console.error("Error editing item:", error);
+    return res.status(500).json({ result: false, error: error.message });
+  }
+});
+
 module.exports = router;
